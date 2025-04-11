@@ -1,0 +1,8 @@
+fastapi
+pydantic
+uvicorn
+python-nmap
+getmac
+icmplib
+asyncssh
+aioftp
