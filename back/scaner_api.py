@@ -115,7 +115,8 @@ async def scan_all_host(range_ip: str):
              })
 async def get_proc():
     if scan_state.is_scanning:
-        return {"percent": f"{scan_state.procent:.2f}%"}
+        print(scan_state.procent)
+        return {"percent": f"{scan_state.procent}"}
     elif scan_state.procent is not None:
         scan_state.procent = None
     return {"percent": "done"}
