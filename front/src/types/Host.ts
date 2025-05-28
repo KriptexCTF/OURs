@@ -13,8 +13,9 @@ export interface PortScanResult {
 }
 
 
-export interface SshAttempt {
+export interface Attempt {
   username: string;
   password: string;
   success: boolean;
 }
+

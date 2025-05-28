@@ -6,6 +6,7 @@ from base64 import b32encode
 from json import loads
 from socket import gethostbyaddr
 from lib.config_reader import threads_count, ouifile_path
+from lib.progress_bar import ScanState
 
 #-----------vendors_list
 filename_path = ouifile_path
@@ -14,22 +15,12 @@ vendors_json = (loads(open(filename_path, 'r', encoding="utf-8", errors="replace
 
 SEMAPHORE_LIMIT = threads_count
 semaphore = Semaphore(SEMAPHORE_LIMIT)
-
-class ScanState:
-	def __init__(self):
-		self.total = 0
-		self.progress = 0
-		self.is_scanning = False
-		self.procent = None
-	def next(self):
-		if self.progress < self.total:
-			self.progress += 1
-			self.procent = f"{((self.progress / self.total) * 100):.2f}%"    
-scan_state = ScanState()
+   
+scan_state_scan = ScanState()
 
 async def scan_ip(ip: str):
 	async with semaphore:
-		scan_state.next()
+		scan_state_scan.next()
 		try:
 			result = await async_ping(str(ip), count=2, interval=0.5, timeout=0.1)
 			mac = get_mac_address(ip=str(ip))
@@ -39,16 +30,16 @@ async def scan_ip(ip: str):
 			print(e)
 			return ip, False, None, None
 async def start_scan(range_ip: str):
-	scan_state.total = addr_count((range_ip.split('/'))[1])
-	scan_state.is_scanning = True
-	scan_state.progress = 0   
+	scan_state_scan.total = addr_count((range_ip.split('/'))[1])
+	scan_state_scan.is_scanning = True
+	scan_state_scan.progress = 0   
 	ip_list = network_list(range_ip)
 	tasks = [scan_ip(ip) for ip in ip_list]  
 	results = []
 	for i in range(0, len(tasks), SEMAPHORE_LIMIT): # Semaphore limit
 		batch = tasks[i:i + SEMAPHORE_LIMIT]
 		results.extend(await gather(*batch))
-	scan_state.is_scanning = False
+	scan_state_scan.is_scanning = False
 	return results
 
 def get_hostname(ip):

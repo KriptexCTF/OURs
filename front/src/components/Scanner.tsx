@@ -8,14 +8,14 @@ import {
   Space,
   Typography,
   Progress,
-  Alert
+  Alert,
 } from "antd";
 import { NetworkCanvas } from "./NetworkCanvas";
+import { useEffect } from "react";
 
-const { Title } = Typography;
+// const { Title } = Typography;
 
 export const Scanner = observer(() => {
-  
   const columns = [
     {
       title: "IP",
@@ -27,7 +27,6 @@ export const Scanner = observer(() => {
       title: "MAC",
       dataIndex: "mac",
       key: "mac",
-      
     },
     {
       title: "Host",
@@ -47,7 +46,7 @@ export const Scanner = observer(() => {
       key: "actions",
       render: (_: any, record: any) => (
         <Space>
-          <Button 
+          <Button
             onClick={() => {
               scannerStore.setSelectedHost(record);
               scannerStore.scanPorts(record.id);
@@ -61,12 +60,15 @@ export const Scanner = observer(() => {
     },
   ];
 
+  useEffect(()=>{
+    console.log(scannerStore.scanProgress)
+  })
+
   return (
     <div style={{ padding: 24 }}>
-      <Title level={2}>Сканер сети</Title>
+      <Typography.Title level={2}>Сканер сети</Typography.Title>
 
       <Space direction="vertical" style={{ width: "100%" }}>
-        
         <Input
           placeholder="Введите range_ip (например 192.168.1.0/24)"
           value={scannerStore.rangeIp}
@@ -75,23 +77,22 @@ export const Scanner = observer(() => {
           disabled={scannerStore.loading}
         />
 
-        <Button 
-          type="primary" 
-          onClick={() => scannerStore.scanNetwork()}
+        <Button
+          type="primary"
+          onClick={() => {
+            scannerStore.scanNetworkHost()
+            scannerStore.pollScanHostProgress()
+          }}
           disabled={!scannerStore.rangeIp || scannerStore.loading}
           loading={scannerStore.loading}
         >
           Начать сканирование
         </Button>
 
-        {scannerStore.progress && scannerStore.progress !== "done" && (
+        {scannerStore.scanProgress && scannerStore.scanProgress !== "done" && (
           <Progress
-            percent={
-              scannerStore.progress === "done"
-                ? 100
-                : parseFloat(scannerStore.progress)
-            }
-            status={scannerStore.progress === "done" ? "success" : "active"}
+            percent={parseFloat(scannerStore.scanProgress)}
+            status="active"
             style={{ width: 400 }}
           />
         )}
@@ -114,9 +115,12 @@ export const Scanner = observer(() => {
           onRow={(record) => ({
             onClick: () => scannerStore.setSelectedHost(record),
             style: {
-              cursor: 'pointer',
-              background: scannerStore.selectedHost?.id === record.id ? '#f0f9ff' : 'inherit'
-            }
+              cursor: "pointer",
+              background:
+                scannerStore.selectedHost?.id === record.id
+                  ? "#f0f9ff"
+                  : "inherit",
+            },
           })}
         />
 

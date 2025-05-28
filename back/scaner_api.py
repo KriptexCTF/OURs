@@ -5,9 +5,10 @@ from pydantic import BaseModel
 from typing import List
 from uvicorn import run
 from lib.config_reader import host, port, log_mode
-from lib.scan import scan_state, start_scan, create_json
+from lib.scan import scan_state_scan, start_scan, create_json
 from lib.nmap import nmap_start
-from lib.brute.ssh import initiation_scan
+from lib.brute.ssh import scan_state_ssh ,initiation_scan
+from lib.brute.ftp import scan_state_ftp, initiation_scan as ftp_initiation_scan
 import os
 import sys
 
@@ -84,7 +85,7 @@ real_api = APIRouter(prefix="/api", tags=["Real API"])
                  400: {"description": "Некорректный запрос"}
              })
 async def scan_all_host(range_ip: str):
-    if scan_state.is_scanning:
+    if scan_state_scan.is_scanning:
         return {"error": "already_started"}
     output = await start_scan(range_ip)
     return {"results": create_json(output)}
@@ -106,19 +107,25 @@ async def scan_all_host(range_ip: str):
                          "application/json": {
                              "examples": {
                                  "in_progress": {"value": {"percent": "76.54%"}},
-                                 "done": {"value": {"percent": "done"}},
-                                 "disabled": {"value": {"error": "scan_disabled"}}
+                                 "done": {"value": {"percent": "done"}}
                              }
                          }
                      }
                  }
              })
 async def get_proc():
+<<<<<<< HEAD
     if scan_state.is_scanning:
         print(scan_state.procent)
         return {"percent": f"{scan_state.procent}"}
     elif scan_state.procent is not None:
         scan_state.procent = None
+=======
+    if scan_state_scan.is_scanning:
+        return {"percent": f"{scan_state_scan.procent}"}
+    elif scan_state_scan.procent is not None:
+        scan_state_scan.procent = None
+>>>>>>> 58a3993 (add ftp brute)
     return {"percent": "done"}
     
 
@@ -193,6 +200,60 @@ async def scan_ports(request: list_transform):
 async def ssh_brute(request: list_transform):
     result = await initiation_scan(request.targets)
     return {"ssh_res": result}
+
+@real_api.get("/ssh_proc/")
+async def ssh_proc():
+    if scan_state_ssh.is_scanning:
+        return {"percent": f"{scan_state_ssh.procent}"}
+    elif scan_state_ssh.procent is not None:
+        scan_state_ssh.procent = None
+    return {"percent": "done"}
+
+@real_api.post("/ftp_brute/",
+              summary="FTP брутфорс",
+              description="""
+              Пытается подобрать учетные данные FTP для указанных хостов
+              
+              Параметры:
+              - `targets`: Массив ID хостов для атаки
+              
+              Ответ:
+              - `ftp_res`: Массив результатов подбора учетных данных для каждого хоста
+              """,
+              responses={
+                  200: {
+                      "description": "Результаты брутфорса",
+                      "content": {
+                          "application/json": {
+                              "example": {
+                                  "ftp_res": [
+                                      {
+                                          "id": "GEYC4MRUFYYTCLRR",
+                                          "users": [
+                                              {"username": "anonymous", "password": "anonymous"},
+                                              {"username": "admin", "password": "password123"}
+                                          ]
+                                      }
+                                  ]
+                              }
+                          }
+                      }
+                  },
+                  400: {"description": "Некорректный запрос"}
+              })
+async def ftp_brute(request: list_transform):
+    result = await ftp_initiation_scan(request.targets)
+    return {"ftp_res": result}
+
+@real_api.get("/ftp_proc/")
+async def ftp_proc():
+    if scan_state_ftp.is_scanning:
+        return {"percent": f"{scan_state_ftp.procent}"}
+    elif scan_state_ftp.procent is not None:
+        scan_state_ftp.procent = None
+    return {"percent": "done"}
+
+
 
 # -----------------------------
 # 🧪 Моковый API
