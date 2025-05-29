@@ -5,8 +5,11 @@
 
 #  Запуск бекенда:
    cd back
+   
    pip3 install -r requirements.txt
+   
    source ~/.venv/bin/activate 
+   
    sudo python3 scaner_api.py
 
 #  Запуск фронта:
@@ -17,8 +20,6 @@
       
          
 
-
-.....
 <p align="center">
       <img src="...." width="726">
 </p>
