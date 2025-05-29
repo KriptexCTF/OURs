@@ -3,8 +3,7 @@
 
 
 
-#  Запуск бекенда:
-   cd back
+#  Запуск бекенда (папка back):
    
    <h3>pip3 install -r requirements.txt</h3>
    Для работы необходимы root права
