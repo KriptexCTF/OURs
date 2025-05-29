@@ -19,6 +19,6 @@
          
 
 <p align="center">
-   ![Screenshot 2025-05-29 at 21 48 04](https://github.com/user-attachments/assets/0a63526e-764d-4511-8de2-d55366fd4514)
+   <img width="200px" src="https://github.com/user-attachments/assets/0a63526e-764d-4511-8de2-d55366fd4514" alt="qr"/>
 </p>
 
