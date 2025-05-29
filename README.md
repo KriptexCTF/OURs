@@ -6,14 +6,12 @@
 #  Запуск бекенда:
    cd back
    
-   pip3 install -r requirements.txt
-   
-   source ~/.venv/bin/activate 
-   
-   sudo python3 scaner_api.py
+   <h3>pip3 install -r requirements.txt</h3>
+   Для работы необходимы root права
+   <h3>sudo python3 scaner_api.py</h3>
 
 #  Запуск фронта:
-   http-server dist -p 5173 --push-state
+   <h3>http-server dist -p 5173 --push-state</h3>
    
    dev:    npm i run dev
            npm run build
@@ -21,6 +19,6 @@
          
 
 <p align="center">
-      <img src="...." width="726">
+   ![Screenshot 2025-05-29 at 21 48 04](https://github.com/user-attachments/assets/0a63526e-764d-4511-8de2-d55366fd4514)
 </p>
 
