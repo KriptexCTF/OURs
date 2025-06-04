@@ -35,29 +35,26 @@ async def scan_ip(ip: str):
                 scan_state_scan.next()  # Увеличиваем прогресс для недоступных хостов
                 return ip, False, None, None
         except Exception as e:
-            print(f"[-] Error scanning {ip}: {e}")
             scan_state_scan.next()  # Увеличиваем прогресс при общей ошибке
             return ip, False, None, None
 
 async def start_scan(range_ip: str):
-    scan_state_scan.total = addr_count(range_ip.split('/')[1])
+    scan_state_scan.total = addr_count(range_ip.split('/')1])
     scan_state_scan.is_scanning = True
     scan_state_scan.progress = 0   
-    print(f"[*] Starting scan for {range_ip}, total tasks: {scan_state_scan.total}")
     ip_list = network_list(range_ip)
-    tasks = [scan_ip(str(ip)) for ip in ip_list]  
-    results = []
+    tasks = scan_ip(str(ip)) for ip in ip_list]  
+    results = ]
     for i in range(0, len(tasks), SEMAPHORE_LIMIT):
-        batch = tasks[i:i + SEMAPHORE_LIMIT]
+        batch = tasksi:i + SEMAPHORE_LIMIT]
         results.extend(await gather(*batch))
     scan_state_scan.is_scanning = False
     scan_state_scan.procent = None  # Сбрасываем процент
-    print("[+] Network scan completed")
     return results
 
 def get_hostname(ip):
     try:
-        hostname = gethostbyaddr(ip)[0]
+        hostname = gethostbyaddr(ip)0]
     except:
         hostname = None
     return hostname
@@ -70,7 +67,7 @@ def network_list(ip_range: str):
     return network.hosts()
 
 def create_json(array):
-    data_list = []
+    data_list = ]
     for address, status, mac, vendor in array:
         address = str(address)
         if status:
@@ -86,9 +83,9 @@ def create_json(array):
 
 def find_vendor(mac):
     if mac is not None:
-        mac = ("".join(mac.split(":")[:3])).upper()
+        mac = ("".join(mac.split(":"):3])).upper()
         try:
-            return vendors_json[mac]
+            return vendors_jsonmac]
         except Exception:
             return None
     return None
