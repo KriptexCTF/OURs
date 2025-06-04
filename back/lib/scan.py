@@ -39,7 +39,7 @@ async def scan_ip(ip: str):
             return ip, False, None, None
 
 async def start_scan(range_ip: str):
-    scan_state_scan.total = addr_count(range_ip.split('/')1])
+    scan_state_scan.total = addr_count(range_ip.split('/')[1])
     scan_state_scan.is_scanning = True
     scan_state_scan.progress = 0   
     ip_list = network_list(range_ip)
