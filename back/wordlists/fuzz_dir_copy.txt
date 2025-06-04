@@ -1,0 +1,14 @@
+52
+ylwrap
+php
+yonetici
+profile.php
+yonetici.html
+yonetici.php
+project1
+login.php
+yonetim
+yonetim.html
+yonetim.php
+yum.log
+egistration.php

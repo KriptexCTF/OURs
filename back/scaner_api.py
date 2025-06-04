@@ -3,12 +3,14 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.openapi.docs import get_swagger_ui_html
 from pydantic import BaseModel
 from typing import List
+from typing import List, Optional
 from uvicorn import run
 from lib.config_reader import host, port, log_mode
 from lib.scan import scan_state_scan, start_scan, create_json
 from lib.nmap import nmap_start
 from lib.brute.ssh import scan_state_ssh ,initiation_scan
 from lib.brute.ftp import scan_state_ftp, initiation_scan as ftp_initiation_scan
+from lib.brute.dirfuzz import scan_state_fuzz, initiation_scan as fuzz_initiation_scan
 import os
 import sys
 
@@ -17,7 +19,9 @@ import sys
 # -----------------------------
 class list_transform(BaseModel):
     targets: List[str]
-
+class ListTransform(BaseModel):
+    targets: List[str]
+    creds: Optional[str] = None
 # -----------------------------
 # FastAPI init
 # -----------------------------
@@ -52,7 +56,7 @@ app.add_middleware(
 # -----------------------------
 real_api = APIRouter(prefix="/api", tags=["Real API"])
 
-@real_api.get("/scanallhost/",
+@real_api.get("/scanallhost",
              summary="Сканировать сеть",
              description="""
              Сканирует указанный IP-диапазон (формат CIDR)
@@ -155,6 +159,7 @@ async def get_proc():
               })
 async def scan_ports(request: list_transform):
     result = await nmap_start(request.targets)
+    print(result)
     return {"port_res": result}
 
 @real_api.post("/ssh_brute/",
@@ -243,6 +248,51 @@ async def ftp_proc():
         return {"percent": f"{scan_state_ftp.procent}"}
     elif scan_state_ftp.procent is not None:
         scan_state_ftp.procent = None
+    return {"percent": "done"}
+
+@real_api.post("/dir_fuzz/",
+              summary="Фаззинг директорий",
+              description="""
+              Выполняет фаззинг директорий для указанных хостов
+              
+              Параметры:
+              - `targets`: Массив ID хостов для сканирования вида base32("ip:port")
+              - `creds`: Base64-encoded строка вида login:username&&password:P@ssw0rd (опиционально)
+              
+              Ответ:
+              - `fuzz_res`: Массив результатов фаззинга
+              """,
+              responses={
+                  200: {
+                      "description": "Результаты фаззинга",
+                      "content": {
+                          "application/json": {
+                              "example": {
+                                  "fuzz_res": [
+                                      {
+                                          "id": "GEYC4MRUFYYTCLRR",
+                                          "results": [
+                                              {"url": "http://192.168.1.3/admin", "status": 200},
+                                              {"url": "http://192.168.1.3/secret", "status": 403}
+                                          ]
+                                      }
+                                  ]
+                              }
+                          }
+                      }
+                  },
+                  400: {"description": "Некорректный запрос"}
+              })
+async def dir_fuzz(request: ListTransform):
+    result = await fuzz_initiation_scan(request.targets, creds=request.creds)
+    return {"fuzz_res": result}
+
+@real_api.get("/fuzz_proc/")
+async def fuzz_proc():
+    if scan_state_fuzz.is_scanning:
+        return {"percent": f"{scan_state_fuzz.procent or '0%'}"}
+    elif scan_state_fuzz.procent is not None:
+        scan_state_fuzz.procent = None
     return {"percent": "done"}
 
 

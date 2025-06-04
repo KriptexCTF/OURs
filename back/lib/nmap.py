@@ -6,7 +6,7 @@ from asyncio import Semaphore
 from lib.config_reader import threads_count
 
 app = FastAPI()
-SEMAPHORE_LIMIT = threads_count
+SEMAPHORE_LIMIT = min(threads_count, 20)  # Ограничение сверху
 semaphore = Semaphore(SEMAPHORE_LIMIT)
 
 def create_json(input):
@@ -20,16 +20,16 @@ async def scan_ports(target, port_min, port_max):
     open_ports_with_services = []
     try:
         result = await asyncio.to_thread(
-            nm.scan, target, f"{port_min}-{port_max}", arguments="-sS -T4", timeout=30
+            nm.scan, target, None, arguments="-sV -T5" #f"{port_min}-{port_max}"
         )
-        for port in range(port_min, port_max + 1):
-            port_data = result["scan"].get(target, {}).get("tcp", {}).get(port, {})
+        tcp_data = result["scan"].get(target, {}).get("tcp", {})
+        for port, port_data in tcp_data.items():
             if port_data.get("state") == "open":
                 service_name = port_data.get("name", "Неизвестный сервис")
                 open_ports_with_services.append({"port": port, "service": service_name})
-            await asyncio.sleep(0)
         return open_ports_with_services
     except nmap.PortScannerError as e:
+        print(f"PortScannerError for {target}: {e}")
         return []
 
 async def async_scan(target, port_min, port_max):
@@ -43,7 +43,7 @@ async def async_scan(target, port_min, port_max):
             return target, []
 
 async def nmap_start(targets):
-    port_min, port_max = 1, 10000
+    port_min, port_max = 1, 1000  # Уменьшен диапазон
     tasks = [async_scan(target, port_min, port_max) for target in targets]
     try:
         results = []

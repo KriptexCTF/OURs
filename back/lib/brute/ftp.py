@@ -90,7 +90,7 @@ async def ftp_bruteforce(host, username, password, port=21, retry=3):
                 print(f"[-] Timeout for {username}:{password} on {host}:{port} ({attempt+1}/{retry})")
                 await asyncio.sleep(1)
             except Exception as e:
-                print(f"[-] FTP login failed for {username}:{password} on {host}:{port} ({attempt+1}/{retry}) - {e}")
+                #print(f"[-] FTP login failed for {username}:{password} on {host}:{port} ({attempt+1}/{retry}) - {e}")
                 await asyncio.sleep(1)
         scan_state_ftp.next()
         print(f"[DEBUG] Failed all attempts for {username}:{password} on {host}:{port}")
