@@ -20,11 +20,7 @@ async def scan_ports(target, port_min, port_max):
     open_ports_with_services = []
     try:
         result = await asyncio.to_thread(
-<<<<<<< HEAD
             nm.scan, target, None, arguments="-sV -T5" #f"{port_min}-{port_max}"
-=======
-            nm.scan, target, f"{port_min}-{port_max}", arguments="-sS -T5"
->>>>>>> 508e365d55abd0c2466174c7c4cc6f7ec8f32986
         )
         tcp_data = result["scan"].get(target, {}).get("tcp", {})
         for port, port_data in tcp_data.items():
