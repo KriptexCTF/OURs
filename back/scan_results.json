@@ -1,0 +1,236 @@
+{
+  "hosts": {
+    "192.168.1.1": {
+      "id": "GE4TELRRGY4C4MJOGE======",
+      "ip": "192.168.1.1",
+      "mac": "28:ff:3e:dd:0f:c7",
+      "hostname": null,
+      "vendor": "zte corporation\n12/F.,zte R&D building ,kejinan Road,Shenzhen,P.R.China\nshenzhen guangdong 518057\nChina",
+      "ports": [
+        {
+          "port": 53,
+          "service": "domain",
+          "version": "PowerDNS Recursor 4.8.4"
+        },
+        {
+          "port": 80,
+          "service": "http",
+          "version": "Mini web server 1.0"
+        },
+        {
+          "port": 139,
+          "service": "netbios-ssn",
+          "version": "Samba smbd 3.X - 4.X"
+        },
+        {
+          "port": 443,
+          "service": "http",
+          "version": "Mini web server 1.0"
+        },
+        {
+          "port": 445,
+          "service": "netbios-ssn",
+          "version": "Samba smbd 3.X - 4.X"
+        }
+      ]
+    },
+    "192.168.1.9": {
+      "id": "GE4TELRRGY4C4MJOHE======",
+      "ip": "192.168.1.9",
+      "mac": "ea:05:54:f7:5c:21",
+      "hostname": null,
+      "vendor": null,
+      "ports": [
+        {
+          "port": 22,
+          "service": "ssh",
+          "version": "OpenSSH 9.8"
+        },
+        {
+          "port": 53,
+          "service": "domain",
+          "version": "unknown"
+        },
+        {
+          "port": 80,
+          "service": "http",
+          "version": "nginx 1.26.2"
+        },
+        {
+          "port": 445,
+          "service": "microsoft-ds",
+          "version": "unknown"
+        },
+        {
+          "port": 631,
+          "service": "ipp",
+          "version": "CUPS 2.3"
+        },
+        {
+          "port": 5000,
+          "service": "rtsp",
+          "version": "unknown"
+        },
+        {
+          "port": 5900,
+          "service": "vnc",
+          "version": "Apple remote desktop vnc"
+        },
+        {
+          "port": 7000,
+          "service": "rtsp",
+          "version": "unknown"
+        },
+        {
+          "port": 8000,
+          "service": "tcpwrapped",
+          "version": "unknown"
+        }
+      ]
+    },
+    "192.168.1.12": {
+      "id": "GE4TELRRGY4C4MJOGEZA====",
+      "ip": "192.168.1.12",
+      "mac": "4c:cc:6a:d2:3f:18",
+      "hostname": null,
+      "vendor": "Micro-Star INTL CO., LTD.\nNo.69, Lide St.,\nNew Taipei City Taiwan 235\nTaiwan",
+      "ports": [
+        {
+          "port": 135,
+          "service": "msrpc",
+          "version": "Microsoft Windows RPC"
+        },
+        {
+          "port": 139,
+          "service": "netbios-ssn",
+          "version": "Microsoft Windows netbios-ssn"
+        },
+        {
+          "port": 445,
+          "service": "microsoft-ds",
+          "version": "unknown"
+        },
+        {
+          "port": 903,
+          "service": "vmware-auth",
+          "version": "VMware Authentication Daemon 1.10"
+        },
+        {
+          "port": 1801,
+          "service": "msmq",
+          "version": "unknown"
+        },
+        {
+          "port": 2103,
+          "service": "msrpc",
+          "version": "Microsoft Windows RPC"
+        },
+        {
+          "port": 2105,
+          "service": "msrpc",
+          "version": "Microsoft Windows RPC"
+        },
+        {
+          "port": 2107,
+          "service": "msrpc",
+          "version": "Microsoft Windows RPC"
+        },
+        {
+          "port": 5357,
+          "service": "http",
+          "version": "Microsoft HTTPAPI httpd 2.0"
+        },
+        {
+          "port": 8090,
+          "service": "opsmessaging",
+          "version": "unknown"
+        }
+      ]
+    },
+    "192.168.1.15": {
+      "id": "GE4TELRRGY4C4MJOGE2Q====",
+      "ip": "192.168.1.15",
+      "mac": "9c:6b:00:62:ef:45",
+      "hostname": null,
+      "vendor": "ASRock Incorporation\n2F.,No.37, Sec.2, Jhongyang S.Rd., Beitou Distric,\nTaipei 112\nTaiwan",
+      "ports": [
+        {
+          "port": 21,
+          "service": "ftp",
+          "version": "Microsoft ftpd"
+        },
+        {
+          "port": 135,
+          "service": "msrpc",
+          "version": "Microsoft Windows RPC"
+        },
+        {
+          "port": 902,
+          "service": "vmware-auth",
+          "version": "VMware Authentication Daemon 1.10"
+        },
+        {
+          "port": 912,
+          "service": "vmware-auth",
+          "version": "VMware Authentication Daemon 1.0"
+        },
+        {
+          "port": 2179,
+          "service": "vmrdp",
+          "version": "unknown"
+        },
+        {
+          "port": 3389,
+          "service": "ms-wbt-server",
+          "version": "unknown"
+        },
+        {
+          "port": 5357,
+          "service": "http",
+          "version": "Microsoft HTTPAPI httpd 2.0"
+        }
+      ]
+    },
+    "192.168.1.5": {
+      "id": "GE4TELRRGY4C4MJOGU======",
+      "ip": "192.168.1.5",
+      "mac": "8e:ea:59:7a:37:48",
+      "hostname": null,
+      "vendor": null,
+      "ports": []
+    },
+    "192.168.1.11": {
+      "id": "GE4TELRRGY4C4MJOGEYQ====",
+      "ip": "192.168.1.11",
+      "mac": "b8:87:6e:78:6d:3c",
+      "hostname": null,
+      "vendor": "Yandex Services AG\nWerftestrasse 4,\nLuzern 6005\nSwitzerland",
+      "ports": [
+        {
+          "port": 8080,
+          "service": "http-proxy",
+          "version": "unknown"
+        }
+      ]
+    },
+    "192.168.1.10": {
+      "id": "GE4TELRRGY4C4MJOGEYA====",
+      "ip": "192.168.1.10",
+      "mac": "00:1c:42:b7:fe:59",
+      "hostname": null,
+      "vendor": "Parallels, Inc.\n660 SW 39h Street\nRenton WA 98057\nUnited States",
+      "ports": [
+        {
+          "port": 21,
+          "service": "ftp",
+          "version": "vsftpd 3.0.5"
+        },
+        {
+          "port": 22,
+          "service": "ssh",
+          "version": "OpenSSH 8.9p1 Ubuntu 3ubuntu0.13"
+        }
+      ]
+    }
+  }
+}
