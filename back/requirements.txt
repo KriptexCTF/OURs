@@ -6,4 +6,5 @@ getmac
 icmplib
 asyncssh
 aioftp
-exploitdb
+aiohttp
+validators
