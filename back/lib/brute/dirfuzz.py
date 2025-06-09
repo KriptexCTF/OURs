@@ -19,7 +19,6 @@ scan_state_fuzz = ScanState()
 MAX_CONCURRENT_TASKS = threads_count
 semaphore = Semaphore(MAX_CONCURRENT_TASKS)
 
-# Путь к wordlist (можно настроить в config_reader.py)
 WORDLIST_PATH = dir_wordlist
 
 def parse_creds(creds_b64: Optional[str]) -> tuple[Optional[str], Optional[str]]:
