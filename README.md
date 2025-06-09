@@ -88,6 +88,9 @@ scan_parametrs = "-sS -sV -T5"
 
 ###  Запуск фронта (папка front):
    #### ```http-server dist -p 5173 --push-state```
+<p align="left">
+   <img width="50%" src="https://github.com/user-attachments/assets/9d757b7d-fa2e-400e-8d5f-9e79c4d4ea44" alt="qr"/>
+</p>
 
 <br>
 
