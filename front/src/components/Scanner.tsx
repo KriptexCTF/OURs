@@ -11,7 +11,7 @@ import {
   Alert,
 } from "antd";
 import { NetworkCanvas } from "./NetworkCanvas";
-import { useEffect } from "react";
+
 
 // const { Title } = Typography;
 
@@ -60,9 +60,7 @@ export const Scanner = observer(() => {
     },
   ];
 
-  useEffect(()=>{
-    console.log(scannerStore.scanProgress)
-  })
+
 
   return (
     <div style={{ padding: 24 }}>
