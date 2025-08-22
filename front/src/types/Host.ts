@@ -19,3 +19,7 @@ export interface Attempt {
   success: boolean;
 }
 
+export interface PathServise{
+  url:string
+  status:number
+}

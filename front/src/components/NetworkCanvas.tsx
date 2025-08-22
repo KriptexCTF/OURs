@@ -36,6 +36,7 @@ export const NetworkCanvas = observer(() => {
         <Col span={12}>
           <Card title="Информация о хосте" variant="borderless">
             <Descriptions column={1}>
+              <Descriptions.Item label="ID"><Text strong>{host.id}</Text></Descriptions.Item>
               <Descriptions.Item label="IP"><Text strong>{host.ip}</Text></Descriptions.Item>
               <Descriptions.Item label="MAC"><Text code>{host.mac}</Text></Descriptions.Item>
               <Descriptions.Item label="Производитель"><Text>{host.vendor}</Text></Descriptions.Item>
@@ -92,6 +93,27 @@ export const NetworkCanvas = observer(() => {
               </Space>
             </Card>
           )}
+
+          <Button onClick={()=>{
+            scannerStore.fuzzingDir(host.id)
+
+            // console.log(scannerStore.fuzzingDirResults.id)
+            // console.log(JSON.stringify(scannerStore.fuzzingDirResults.id))
+          }}>
+            brute dir
+          </Button>
+
+
+          <Button onClick={()=>{
+            // scannerStore.fuzzingDir(host.id)
+
+            console.log(scannerStore.serachSploit(host.id))
+          }}>
+            search_exploits
+          </Button>
+
+
+
 
           {scannerStore.sshBruteResults && (
             <Card title="SSH Доступ" style={{ marginTop: 16 }} variant="borderless">

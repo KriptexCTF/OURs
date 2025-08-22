@@ -2,12 +2,36 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import axios from "axios";
 import { Host, Attempt } from "../types/Host";
-
+// import { convertToBase32}  from "../utils/Convertes";
+import base32Encode from 'base32-encode';
 const mockData = false;
 const url = `http://localhost:8081/${mockData ? 'apifake' : 'api'}`;
 
-// add ftp -
 
+
+export function downloadJson(obj: any, filename = 'data.json') {
+  const jsonStr = JSON.stringify(obj, null, 2); // красиво отформатировано
+  const blob = new Blob([jsonStr], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.click();
+
+  URL.revokeObjectURL(url); // очистка
+}
+
+
+
+function ipToBytes(ip: string): Uint8Array {
+  return new Uint8Array(ip.split('.').map(octet => parseInt(octet, 10)));
+}
+
+function encodeIpToBase32(ip: string): string {
+  const bytes = ipToBytes(ip);
+  return base32Encode(bytes, 'RFC4648', { padding: false });
+}
 
 export class ScannerStore {
   rangeIp = "192.168.0.1/24";
@@ -23,6 +47,9 @@ export class ScannerStore {
   sshBruteResults: Attempt | null = null;
 
   ftpBruteResults: Attempt | null = null;
+
+
+  fuzzingDirResults: any=null;
 
   constructor() {
     makeAutoObservable(this);
@@ -211,6 +238,38 @@ export class ScannerStore {
       }
     }, 1000);
   }
+
+
+  async fuzzingDir(id:string){
+    // console.log(id)
+    try {
+      const res = await axios.post(`${url}/dir_fuzz/`, {
+        targets: [id],
+      });
+
+      // console.log(res.data)
+      const result = res.data.fuzz_res
+      runInAction(() => {
+        if(result)
+          this.fuzzingDirResults = result
+        downloadJson(res.data,"fuzzingDir.json")
+      }) 
+    } catch (error) {
+      console.error("Ошибка при фаззинге директорий", error);
+    }
+
+  }
+
+  async serachSploit(id:string){
+    const encodedIp = encodeIpToBase32(id);
+    const res = await axios.post(`${url}/search_exploits/`, {
+    host_ip: encodedIp,
+    });
+    console.log(res.data)
+    downloadJson(res.data,"serachSploit.json")
+
+  }
+  
 }
 
 export const scannerStore = new ScannerStore();

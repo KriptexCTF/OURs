@@ -1,6 +1,7 @@
 52
 ylwrap
 php
+admin
 yonetici
 profile.php
 yonetici.html
